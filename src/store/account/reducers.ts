@@ -41,7 +41,6 @@ const accountReducer = (
             return {
                 ...state,
                 user: null,
-                loading: false,
                 error: null,
                 token: null
             }

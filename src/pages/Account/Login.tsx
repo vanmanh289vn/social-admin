@@ -1,6 +1,45 @@
-import React, { Fragment } from 'react';
+import React, { ChangeEvent, Dispatch, FormEvent, Fragment, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, AppState } from '../../store';
+import { useLocation } from 'react-router';
+import { login, logout } from '../../store/account/actions';
+import { AccountActionTypes } from '../../store/account/types';
 
 export const Login = () => {
+
+  const [inputs, setInputs] = useState({
+    username: '',
+    password: '',
+  });
+
+  const [submited, setSubmited] = useState(false);
+
+  const loading = useSelector<AppState>((state) => state.account.loading);
+
+  const {username, password} = inputs;
+
+  const dispatch: AppDispatch = useDispatch();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    dispatch(logout());
+  }, []);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const {value, name} = e.target;
+    setInputs((inputs) => ({ ...inputs, [name]: value}));
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmited(true);
+    if (username && password) {
+      const { from } = location.state || { from: { pathname: '/'}};
+      dispatch(login(username, password, from));
+    }
+  };
+
   return (
     <Fragment>
       <div className='container'>
@@ -17,59 +56,39 @@ export const Login = () => {
                       <div className='text-center'>
                         <h1 className='h4 text-gray-900 mb-4'>Welcome Back!</h1>
                       </div>
-                      <form className='user'>
+                      <form className='user' onSubmit={handleSubmit}>
                         <div className='form-group'>
                           <input
-                            type='email'
-                            className='form-control form-control-user'
-                            id='exampleInputEmail'
-                            aria-describedby='emailHelp'
-                            placeholder='Enter Email Address...'
+                            type='username'
+                            className={
+                              'form-control form-control-user ' + (submited && !username ? 'is-invalid' : '')
+                            }
+                            id='exampleInputUserName'
+                            aria-describedby='userNameHelp'
+                            onChange={handleChange}
+                            placeholder='Enter Username...'
+                            name='username'
                           />
+                          {submited && !username ? <div className='invalid-feedback'>Username is required</div> : null}
                         </div>
                         <div className='form-group'>
                           <input
                             type='password'
-                            className='form-control form-control-user'
+                            className={
+                              'form-control form-control-user ' + (submited && !password ? 'is-invalid' : '')
+                            }
                             id='exampleInputPassword'
+                            onChange={handleChange}
                             placeholder='Password'
+                            name='password'
                           />
+                          {submited && !password ? <div className='invalid-feedback'>Password is required</div> : null}
                         </div>
                         <div className='form-group'>
-                          <div className='custom-control custom-checkbox small'>
-                            <input
-                              type='checkbox'
-                              className='custom-control-input'
-                              id='customCheck'
-                            />
-                            <label
-                              className='custom-control-label'
-                              htmlFor='customCheck'
-                            >
-                              Remember Me
-                            </label>
-                          </div>
+                          <button className='btn btn-primary'>
+                          {loading ? <span className='spinner-border spinner-border-sm-l'></span> : null}
+                            Login</button>
                         </div>
-                        <a
-                          href='index.html'
-                          className='btn btn-primary btn-user btn-block'
-                        >
-                          Login
-                        </a>
-                        <hr />
-                        <a
-                          href='index.html'
-                          className='btn btn-google btn-user btn-block'
-                        >
-                          <i className='fab fa-google fa-fw' /> Login with Google
-                        </a>
-                        <a
-                          href='index.html'
-                          className='btn btn-facebook btn-user btn-block'
-                        >
-                          <i className='fab fa-facebook-f fa-fw' /> Login with
-                          Facebook
-                        </a>
                       </form>
                       <hr />
                       <div className='text-center'>
