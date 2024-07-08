@@ -9,7 +9,7 @@ const login = (username: string, password: string) => {
         body: JSON.stringify({username, password}),
     };
 
-    return fetch(`${env.API_URL}/api/v1/auth`, requestOptions)
+    return fetch(`${env.API_URL}/api/auth/signin`, requestOptions)
     .then(handleResponse)
     .then(
         (response) => {
