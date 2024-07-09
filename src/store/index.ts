@@ -21,12 +21,14 @@ const persistedReducer = persistReducer<AppState, any>(persistConfig, rootReduce
 export type AppState = ReturnType<typeof rootReducer>;
 
 
-
+// @reduxjs/toolkit đã tích hợp sẵn thunk middleware, vì vậy không cần thêm nó một cách thủ công. 
 const store = configureStore({
-    // reducer: rootReducer,
     reducer: persistedReducer,
-    // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
-});
+    middleware: (getDefaultMiddleware) => 
+        getDefaultMiddleware({
+          serializableCheck: false, // Vô hiệu hóa kiểm tra tuần tự hóa
+        }),
+    });
 
 const persistedStore = persistStore(store);
 
