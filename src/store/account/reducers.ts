@@ -16,7 +16,7 @@ const initialState: AccountState = {
 
 const accountReducer = (
     state: AccountState = initialState,
-    action: AccountActionTypes
+    action: any
 ): AccountState => {
     switch(action.type){
         case LOGIN_REQUEST: {

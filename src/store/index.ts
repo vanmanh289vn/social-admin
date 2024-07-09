@@ -1,27 +1,35 @@
-import { applyMiddleware, combineReducers } from "redux";
+import { combineReducers } from "redux";
 import { accountReducer } from "./account/reducers";
-import { thunk }  from 'redux-thunk';
+import thunk  from 'redux-thunk';
 import { configureStore } from "@reduxjs/toolkit";
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+
+const persistConfig = {
+    key: 'root',
+    storage,
+    whitelist: ['account'],
+};
 
 
 const rootReducer = combineReducers({
-    account: accountReducer
+    account: accountReducer,
 });
+
+const persistedReducer = persistReducer<AppState, any>(persistConfig, rootReducer);
 
 export type AppState = ReturnType<typeof rootReducer>;
 
-// export default function configureStore() {
-//     const middlewares = [thunkMiddleware];
-//     const middlewareEnhancer = applyMiddleware(...middlewares);
 
-//     return createStore(rootReducer, middlewareEnhancer);
-// }
 
 const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+    // reducer: rootReducer,
+    reducer: persistedReducer,
+    // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
 
-export default store;
+const persistedStore = persistStore(store);
+
+export { store, persistedStore };
 
 export type AppDispatch = typeof store.dispatch;
