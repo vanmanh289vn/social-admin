@@ -27,7 +27,7 @@ function App() {
     <div className="App" id="wrapper">
       <Router>
         <Routes>
-        <Route path='/'
+        <Route path='*'
           element={
             <ProtectedRoute>
               <Admin />
