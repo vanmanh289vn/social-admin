@@ -1,6 +1,30 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
+import { IUser, UsersState } from '../../../store/users/types'
+import { useSelector } from 'react-redux'
+import { AppDispatch, AppState } from '../../../store'
+import { useDispatch } from 'react-redux'
+import { loadUserPaging } from '../../../store/users/actions'
 
 export const Users = () => {
+
+    const users: IUser[] = useSelector((state: AppState) => state.users.items);
+    const dispatch: AppDispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(loadUserPaging(0));
+    }, [dispatch]);
+
+    const userElements: JSX.Element[] = users.map((user) => {
+        return (
+            <tr key={`user_${user.id}`}>
+                <td>{user.username}</td>
+                <td>{user.firstName}</td>
+                <td>{user.lastName}</td>
+                <td>{user.email}</td>
+            </tr>
+        );
+    })
+
     return (
         <Fragment>
             <div>
@@ -15,23 +39,14 @@ export const Users = () => {
                             <table className="table table-bordered" id="dataTable" width="100%" cellSpacing={0}>
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
+                                        <th>UserName</th>
+                                        <th>FirstName</th>
+                                        <th>LastName</th>
+                                        <th>Email</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td>$320,800</td>
-                                    </tr>
+                                    {userElements}
                                 </tbody>
                             </table>
                         </div>

@@ -1,5 +1,6 @@
 // import env from "react-dotenv";
-import { api } from "../helpers";
+import { api, IPagination } from "../helpers";
+import { IUser } from "../store/users/types";
 
 
 
@@ -58,10 +59,23 @@ const logout = () => {
     sessionStorage.removeItem('user');
 }
 
+const getUsersPaging = async (
+    // keyword: string,
+    page: number,
+    // pageSize: number
+): Promise<IPagination<IUser>> => {
+    const res = await api.get<IPagination<IUser>>(`/user/all?page=${page}`)
+    .then((response) => {
+        return response.data;
+    });
+    return res;
+};
+
 
 
 export const userService = {
     login,
     logout,
     getCurrentLoginUser,
+    getUsersPaging,
 }
