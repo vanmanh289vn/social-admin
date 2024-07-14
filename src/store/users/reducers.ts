@@ -2,8 +2,9 @@ import { LOAD_USERS_PAGING_FAILURE, LOAD_USERS_PAGING_REQUEST, LOAD_USERS_PAGING
 
 const initialState: UsersState = {
     items: [],
-    page: 1,
-    total: 0,
+    totalItems: 0,
+    totalPage: 0,
+    pageSize: 0,
     loading: false,
     deletedCount: 0,
     error: null,
@@ -24,8 +25,10 @@ const usersReducer = (
             return {
                 ...state,
                 items: action.payload.items,
-                total: action.payload.total,
-                page: action.payload.page,
+                totalItems: action.payload.totalItems,
+                totalPage: action.payload.totalPage,
+                pageSize: action.payload.pageSize,
+                // currentPage: action.payload.currentPage,
                 loading: false,
                 error: null,
             };

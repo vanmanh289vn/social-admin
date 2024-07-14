@@ -1,18 +1,27 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { IUser, UsersState } from '../../../store/users/types'
 import { useSelector } from 'react-redux'
 import { AppDispatch, AppState } from '../../../store'
 import { useDispatch } from 'react-redux'
 import { loadUserPaging } from '../../../store/users/actions'
+import { Pagination } from '../../../components'
 
 export const Users = () => {
 
     const users: IUser[] = useSelector((state: AppState) => state.users.items);
+    const totalItems = useSelector((state: AppState) => state.users.totalItems);
+    const pageSize = useSelector((state: AppState) => state.users.pageSize);
+    const [currentPage, setCurrentPage] = useState(1);
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(loadUserPaging(0));
-    }, [dispatch]);
+        dispatch(loadUserPaging(currentPage));
+    }, [dispatch, currentPage]);
+
+    const onPageChanged = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+        dispatch(loadUserPaging(pageNumber));
+    }
 
     const userElements: JSX.Element[] = users.map((user) => {
         return (
@@ -50,6 +59,16 @@ export const Users = () => {
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div className='card-footer'>
+                        <Pagination
+                            totalItems={totalItems}
+                            pageLimit={5}
+                            pageSize={pageSize}
+                            onPageChanged={onPageChanged}
+                        >
+
+                        </Pagination>
                     </div>
                 </div>
             </div>
