@@ -5,29 +5,54 @@ type PaginationProps = {
     totalItems: number;
     pageSize: number;
     pageLimit: number;
+    pageIndex: number;
 };
 
 export const Pagination = (props: PaginationProps) => {
 
-    const { totalItems, pageLimit, pageSize } = props;
-    const [currentPage, setCurrentPage] = useState(1);
+    const { totalItems, pageLimit, pageSize, pageIndex } = props;
+    const [currentPage, setCurrentPage] = useState(pageIndex);
     const totalPages = Math.ceil(totalItems / pageSize);
 
-    var startPageIndex = Math.max(currentPage - pageLimit, 1);
-    var endPageIndex = Math.min(currentPage + pageLimit, totalPages);
+    //------------
 
-    const range = (from: number, to: number, step = 1) => {
-        let i = from;
-        const range = [];
+    // var startPageIndex = Math.max(currentPage - pageLimit, 1);
+    // var endPageIndex = Math.min(currentPage + pageLimit, totalPages);
 
-        while (i <= to) {
-            range.push(i);
-            i += step;
+    // const range = (from: number, to: number, step = 1) => {
+    //     let i = from;
+    //     const range = [];
+
+    //     while (i <= to) {
+    //         range.push(i);
+    //         i += step;
+    //     }
+    //     return range;
+    // };
+
+    // const pages = range(startPageIndex, endPageIndex);
+
+    //--------------
+    const getVisiblePages = (currentPage: number, totalPages: number) => {
+        const half = Math.floor(pageLimit / 2);
+        let start = Math.max(1, currentPage - half);
+        let end = Math.min(totalPages, currentPage + half);
+
+        if (end - start + 1 < pageLimit) {
+            if (start === 1) {
+                end = Math.min(start + pageLimit - 1, totalPages);
+            } else {
+                start = Math.max(1, end - pageLimit + 1);
+            }
         }
-        return range;
+
+        return Array.from({length: (end - start + 1)}, (_, i) => start + i);
     };
 
-    const pages = range(startPageIndex, endPageIndex);
+    const pages = getVisiblePages(currentPage, totalPages);
+
+
+    //--------------
 
     const handleClick = (pageNumber: number) => {
         setCurrentPage(pageNumber);
@@ -62,10 +87,10 @@ export const Pagination = (props: PaginationProps) => {
                     );
                 })}
 
-                <li className={`page-item ${currentPage === totalPages ? 'disable' : ''}`}>
+                <li className={`page-item  ${currentPage === totalPages ? ' disabled' : ''}`}>
                     <button
                         className="page-link"
-                        onClick={() => handleClick(totalPages)}
+                        onClick={() => handleClick(currentPage + 1)}
                     >
                         Next
                     </button>

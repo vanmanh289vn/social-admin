@@ -11,15 +11,15 @@ export const Users = () => {
     const users: IUser[] = useSelector((state: AppState) => state.users.items);
     const totalItems = useSelector((state: AppState) => state.users.totalItems);
     const pageSize = useSelector((state: AppState) => state.users.pageSize);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [pageIndex, setPageIndex] = useState(1);
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(loadUserPaging(currentPage));
-    }, [dispatch, currentPage]);
+        dispatch(loadUserPaging(pageIndex));
+    }, [dispatch, pageIndex]);
 
     const onPageChanged = (pageNumber: number) => {
-        setCurrentPage(pageNumber);
+        setPageIndex(pageNumber);
         dispatch(loadUserPaging(pageNumber));
     }
 
@@ -63,8 +63,9 @@ export const Users = () => {
                     <div className='card-footer'>
                         <Pagination
                             totalItems={totalItems}
-                            pageLimit={5}
+                            pageLimit={2}
                             pageSize={pageSize}
+                            pageIndex={pageIndex}
                             onPageChanged={onPageChanged}
                         >
 
