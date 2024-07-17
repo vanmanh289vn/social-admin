@@ -3,7 +3,7 @@ import { LOAD_USERS_PAGING_FAILURE, LOAD_USERS_PAGING_REQUEST, LOAD_USERS_PAGING
 import { userService } from "../../services";
 
 export const loadUserPaging = (
-    // keyword: string,
+    keyword: string,
     currentPage: number,
     // pageSize: number
 ) => {
@@ -14,7 +14,7 @@ export const loadUserPaging = (
             });
 
             const res = await userService.getUsersPaging(
-                // keyword,
+                keyword,
                 currentPage,
                 // pageSize
             );
