@@ -4,10 +4,21 @@ export const LOAD_USERS_PAGING_REQUEST = 'LOAD_USERS_PAGING_REQUEST';
 export const LOAD_USERS_PAGING_SUCCESS = 'LOAD_USERS_PAGING_SUCCESS';
 export const LOAD_USERS_PAGING_FAILURE = 'LOAD_USERS_PAGING_FAILURE';
 
+export const ADD_USER_REQUEST = 'ADD_USER_REQUEST';
+export const ADD_USER_SUCCESS = 'ADD_USER_SUCCESS';
+export const ADD_USER_FAILURE = 'ADD_USER_FAILURE';
+
 export interface IUser {
     id: string;
     username: string;
     email: string;
+    firstName: string;
+    lastName: string;
+}
+
+export interface IAddUserRequest {
+    email: string;
+    password: string;
     firstName: string;
     lastName: string;
 }
@@ -28,6 +39,21 @@ interface LoadUsersPagingFailure {
     };
 }
 
+interface AddUserRequest {
+    type: typeof ADD_USER_REQUEST;
+}
+
+interface AddUserSuccess {
+    type: typeof ADD_USER_SUCCESS;
+}
+
+interface AddUserFailure {
+    type: typeof ADD_USER_FAILURE;
+    payload: {
+        error: string;
+    };
+}
+
 export interface UsersState {
     items: IUser[];
     totalItems: number;
@@ -41,4 +67,7 @@ export interface UsersState {
 export type UsersActionTypes = 
     | LoadUsersPagingRequest
     | LoadUsersPagingSuccess
-    | LoadUsersPagingFailure;
+    | LoadUsersPagingFailure
+    | AddUserRequest
+    | AddUserSuccess
+    | AddUserFailure;

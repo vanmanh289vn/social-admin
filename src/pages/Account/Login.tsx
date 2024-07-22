@@ -1,7 +1,6 @@
 import React, { ChangeEvent, Dispatch, FormEvent, Fragment, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, AppState } from '../../store';
-import { useLocation } from 'react-router';
 import { login, logout } from '../../store/account/actions';
 import { AccountActionTypes } from '../../store/account/types';
 
@@ -20,11 +19,9 @@ export const Login = () => {
 
   const dispatch: AppDispatch = useDispatch();
 
-  const location = useLocation();
-
   useEffect(() => {
     dispatch(logout());
-  }, []);
+  }, [dispatch]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const {value, name} = e.target;
@@ -35,8 +32,7 @@ export const Login = () => {
     e.preventDefault();
     setSubmited(true);
     if (username && password) {
-      const { from } = location.state || { from: { pathname: '/'}};
-      dispatch(login(username, password, from));
+      dispatch(login(username, password));
     }
   };
 

@@ -5,6 +5,8 @@ import { AppDispatch, AppState } from '../../../store'
 import { useDispatch } from 'react-redux'
 import { loadUserPaging } from '../../../store/users/actions'
 import { Pagination } from '../../../components'
+import { Link } from 'react-router-dom'
+import { UrlConstants } from '../../../constants'
 
 export const Users = () => {
 
@@ -111,6 +113,12 @@ export const Users = () => {
                         >
                             Tìm kiếm
                         </button>
+                        <Link
+                            to={UrlConstants.USER_ADD}
+                            className='btn btn-outline-success btn-sm'
+                        >
+                            <span className='fa fa-plus'></span> Thêm mới
+                        </Link>
                     </div>
                     <div className="card-body">
                         <div className="table-responsive">

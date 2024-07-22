@@ -1,5 +1,5 @@
 import { Dispatch } from "redux"
-import { LOAD_USERS_PAGING_FAILURE, LOAD_USERS_PAGING_REQUEST, LOAD_USERS_PAGING_SUCCESS, UsersActionTypes } from "./types"
+import { ADD_USER_FAILURE, ADD_USER_REQUEST, ADD_USER_SUCCESS, IAddUserRequest, LOAD_USERS_PAGING_FAILURE, LOAD_USERS_PAGING_REQUEST, LOAD_USERS_PAGING_SUCCESS, UsersActionTypes } from "./types"
 import { userService } from "../../services";
 
 export const loadUserPaging = (
@@ -28,6 +28,28 @@ export const loadUserPaging = (
             dispatch({
                 type: LOAD_USERS_PAGING_FAILURE,
                 payload: {error: error.toString()},
+            });
+        }
+    };
+};
+
+export const addUser = (user: IAddUserRequest) => {
+    return async (dispatch: Dispatch<UsersActionTypes>) => {
+        try {
+            dispatch({
+                type: ADD_USER_REQUEST,
+            });
+
+            await userService.addUser(user);
+
+            dispatch({
+                type: ADD_USER_SUCCESS,
+            });
+            
+        } catch (error: any) {
+            dispatch({
+                type: ADD_USER_FAILURE,
+                payload: { error: error.toString() },
             });
         }
     };

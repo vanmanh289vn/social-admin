@@ -1,6 +1,6 @@
 // import env from "react-dotenv";
 import { api, IPagination } from "../helpers";
-import { IUser } from "../store/users/types";
+import { IAddUserRequest, IUser } from "../store/users/types";
 
 
 
@@ -71,6 +71,14 @@ const getUsersPaging = async (
     return res;
 };
 
+const addUser = async (user: IAddUserRequest): Promise<any> => {
+    const res = await api.post(`/user`, user)
+    .then((response) => {
+        return response.data;
+    });
+    return res;
+};
+
 
 
 export const userService = {
@@ -78,4 +86,5 @@ export const userService = {
     logout,
     getCurrentLoginUser,
     getUsersPaging,
+    addUser,
 }

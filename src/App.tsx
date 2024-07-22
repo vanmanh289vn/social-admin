@@ -1,6 +1,8 @@
 import React, { ReactNode } from 'react';
 import './App.css';
 import './styles/sb-admin-2.min.css'
+import './assets/font-awesome/css/all.min.css'
+
 import { Route, BrowserRouter as Router, Routes} from 'react-router-dom';
 import { Login } from './pages/Account';
 import { Admin } from './pages/Admin';

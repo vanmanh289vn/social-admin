@@ -4,6 +4,7 @@ import { TopBar } from './TopBar/TopBar'
 import { Route, Routes, BrowserRouter as Router, useRoutes } from 'react-router-dom'
 import { Home }  from './Home/Home'
 import { Users } from './Users/Users'
+import { AddUser } from './Users/AddUser'
 
 // const AppRoutes = () => {
 //     const routes = [
@@ -31,6 +32,7 @@ export const Admin = () => {
                             <Routes>
                                 <Route path='/' element={<Home />}/>
                                 <Route path='/users' element={<Users />}/>
+                                <Route path='/user-add' element={<AddUser />} />
                             </Routes>
                     </div>
                     {/* /.container-fluid */}
