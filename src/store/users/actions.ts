@@ -56,11 +56,7 @@ export const addUser = (user: IAddUserRequest) => {
                     payload: { message : 'Thêm người dùng thành công!'}
                 });
 
-                console.log('Alert success ... them nguoi dung thanh cong ...');
-
             } else {
-                console.log('Add user failure ...');
-                console.log(result);
 
                 dispatch({
                     type: ADD_USER_FAILURE,
@@ -71,12 +67,9 @@ export const addUser = (user: IAddUserRequest) => {
                     type: ALERT_ERROR,
                     payload: { message : 'Thêm người dùng thất bại!'}
                 });
-
-                console.log('Alert failure ... them nguoi dung that bai ...');
             }
 
         } catch (error: any) {
-            console.log('Add user failure ... (case Catch)');
             dispatch({
                 type: ADD_USER_FAILURE,
                 payload: { error: error.toString() },
@@ -86,8 +79,6 @@ export const addUser = (user: IAddUserRequest) => {
                 type: ALERT_ERROR,
                 payload: { message : 'Thêm người dùng thất bại!  (case Catch)'}
             });
-
-            console.log('Alert failure ... them nguoi dung that bai ...  (case Catch)');
         }
 
         setTimeout(() => {

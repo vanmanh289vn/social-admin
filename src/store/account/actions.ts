@@ -1,8 +1,7 @@
 
-import { AccountActionTypes, LOAD_CURRENT_LOGIN_USER_FAILURE, LOAD_CURRENT_LOGIN_USER_REQUEST, LOAD_CURRENT_LOGIN_USER_SUCCESS, LOG_OUT, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS } from "./types"
+import { AccountActionTypes, LOG_OUT, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS } from "./types"
 import { userService } from "../../services";
 import { Dispatch } from "react";
-// import { history } from '../../helpers';
 
 export const login = (username: string, password: string) => {
     return async (dispatch: Dispatch<AccountActionTypes>) => {
@@ -45,24 +44,4 @@ export const login = (username: string, password: string) => {
 
 export const logout = (): AccountActionTypes => {
     return { type: LOG_OUT};
-};
-
-export const getCurrentLoginUser = () => {
-    return async (dispatch: Dispatch<AccountActionTypes>) => {
-        dispatch({
-            type: LOAD_CURRENT_LOGIN_USER_REQUEST,
-        });
-        try {
-            const response = await userService.getCurrentLoginUser();
-            dispatch({
-                type: LOAD_CURRENT_LOGIN_USER_SUCCESS,
-                payload: {user: response},
-            });
-        } catch (error: any) {
-            dispatch({
-                type: LOAD_CURRENT_LOGIN_USER_FAILURE,
-                payload: {error: error.toString()}
-            });
-        }
-    };
 };

@@ -2,7 +2,6 @@ import React, { ChangeEvent, Dispatch, FormEvent, Fragment, useEffect, useState 
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, AppState } from '../../store';
 import { login, logout } from '../../store/account/actions';
-import { AccountActionTypes } from '../../store/account/types';
 
 export const Login = () => {
 

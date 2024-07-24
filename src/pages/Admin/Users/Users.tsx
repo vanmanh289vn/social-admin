@@ -1,5 +1,5 @@
 import React, { ChangeEvent, Fragment, useEffect, useState } from 'react'
-import { IUser, UsersState } from '../../../store/users/types'
+import { IUser } from '../../../store/users/types'
 import { useSelector } from 'react-redux'
 import { AppDispatch, AppState } from '../../../store'
 import { useDispatch } from 'react-redux'

@@ -7,21 +7,6 @@ import { Users } from './Users/Users'
 import { AddUser } from './Users/AddUser'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppState } from '../../store'
-// import { AppDispatch, AppState } from '../../store'
-
-// const AppRoutes = () => {
-//     const routes = [
-//       { path: '/', element: <Home /> },
-//       { path: '/users', element: <Users /> }
-//     ];
-  
-//     const element = useRoutes(routes);
-//     return element;
-//   };
-
-// const alert = useSelector((state: AppState) => state.alert);
-
-// const dispatch: AppDispatch = useDispatch();
 
 export const Admin = () => {
 

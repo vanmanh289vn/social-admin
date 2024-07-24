@@ -18,9 +18,6 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   const account:AccountState = useSelector((state: AppState) => state.account);
 
-  // const isAuthenticated = true;
-  // account.token = 'abc';
-
   return account.token ? <>{children}</> : <Login />;
 }
 

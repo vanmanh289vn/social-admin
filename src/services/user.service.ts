@@ -48,12 +48,6 @@ return await api.post<any>('/auth/signin', body).then((response) => {
     });
 };
 
-const getCurrentLoginUser = async (): Promise<any> => {
-    return await api.get<any>('/auth/signin').then((response) => {
-        return response.data;
-    });
-};
-
 // ham nay co the se khong dung den ... xoa di sau nay...
 const logout = () => {
     sessionStorage.removeItem('user');
@@ -84,7 +78,6 @@ const addUser = async (user: IAddUserRequest): Promise<any> => {
 export const userService = {
     login,
     logout,
-    getCurrentLoginUser,
     getUsersPaging,
     addUser,
 }

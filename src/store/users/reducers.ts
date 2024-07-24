@@ -28,7 +28,6 @@ const usersReducer = (
                 totalItems: action.payload.totalItems,
                 totalPage: action.payload.totalPage,
                 pageSize: action.payload.pageSize,
-                // currentPage: action.payload.currentPage,
                 loading: false,
                 error: null,
             };
