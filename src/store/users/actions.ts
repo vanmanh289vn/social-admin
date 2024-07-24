@@ -48,9 +48,6 @@ export const addUser = (user: IAddUserRequest) => {
                     type: ADD_USER_SUCCESS,
                 });
     
-                console.log('Add user success ...');
-                console.log(result);
-    
                 dispatch({
                     type: ALERT_SUCCESS,
                     payload: { message : 'Thêm người dùng thành công!'}
