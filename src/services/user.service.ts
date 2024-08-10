@@ -56,9 +56,9 @@ const logout = () => {
 const getUsersPaging = async (
     keyword: string,
     page: number,
-    // pageSize: number
+    pageSize: number
 ): Promise<IPagination<IUser>> => {
-    const res = await api.get<IPagination<IUser>>(`/user/all?keyword=${keyword}&page=${page}`)
+    const res = await api.get<IPagination<IUser>>(`/user/all?keyword=${keyword}&page=${page}&size=${pageSize}`)
     .then((response) => {
         return response.data;
     });

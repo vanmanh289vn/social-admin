@@ -6,7 +6,7 @@ import { ALERT_ERROR, ALERT_SUCCESS, AlertActionTypes, CLEAR_ALERT } from "../al
 export const loadUserPaging = (
     keyword: string,
     currentPage: number,
-    // pageSize: number
+    pageSize: number
 ) => {
     return async (dispatch: Dispatch<UsersActionTypes>) => {
         try {
@@ -17,7 +17,7 @@ export const loadUserPaging = (
             const res = await userService.getUsersPaging(
                 keyword,
                 currentPage,
-                // pageSize
+                pageSize
             );
 
             dispatch({

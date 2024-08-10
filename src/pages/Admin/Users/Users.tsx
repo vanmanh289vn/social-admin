@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Fragment, useEffect, useState } from 'react'
+import React, { ChangeEvent, Fragment, ReactNode, useEffect, useState } from 'react'
 import { IUser } from '../../../store/users/types'
 import { useSelector } from 'react-redux'
 import { AppDispatch, AppState } from '../../../store'
@@ -12,20 +12,24 @@ export const Users = () => {
 
     const users: IUser[] = useSelector((state: AppState) => state.users.items);
     const totalItems = useSelector((state: AppState) => state.users.totalItems);
-    const pageSize = useSelector((state: AppState) => state.users.pageSize);
+    // const pageSize = useSelector((state: AppState) => state.users.pageSize);
     const [pageIndex, setPageIndex] = useState(1);
     const [searchKeyword, setSearchKeyword] = useState('');
     const [showSearch, setShowSearch] = useState(true);
 
+    // page size
+    const [pageSize, setPageSize] = useState(6);
+    const pageSizes = [3, 6, 9];
+
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(loadUserPaging(searchKeyword, pageIndex));
-    }, [dispatch, pageIndex, searchKeyword]);
+        dispatch(loadUserPaging(searchKeyword, pageIndex, pageSize));
+    }, [dispatch, pageIndex, searchKeyword, pageSize]);
 
     const onPageChanged = (pageNumber: number) => {
         setPageIndex(pageNumber);
-        dispatch(loadUserPaging(searchKeyword, pageNumber));
+        dispatch(loadUserPaging(searchKeyword, pageNumber, pageSize));
     }
 
     const userElements: JSX.Element[] = users.map((user) => {
@@ -45,7 +49,14 @@ export const Users = () => {
 
     const clearSearch = () => {
         setSearchKeyword('');
-        dispatch(loadUserPaging('', 1))
+        dispatch(loadUserPaging('', 1, pageSize))
+    }
+
+    const handlePageSizeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+        let size: any = e.target.value;
+        setPageSize(size as number);
+        setPageIndex(1);
+
     }
 
     return (
@@ -81,7 +92,7 @@ export const Users = () => {
                                         <button
                                             type='button'
                                             onClick={() =>
-                                                dispatch(loadUserPaging(searchKeyword, pageIndex))
+                                                dispatch(loadUserPaging(searchKeyword, pageIndex, pageSize))
                                             }
                                             className='btn btn-primary my-1'
                                         >
@@ -138,15 +149,34 @@ export const Users = () => {
                         </div>
                     </div>
                     <div className='card-footer'>
-                        <Pagination
-                            totalItems={totalItems}
-                            pageLimit={2}
-                            pageSize={pageSize}
-                            pageIndex={pageIndex}
-                            onPageChanged={onPageChanged}
-                        >
 
-                        </Pagination>
+                        <div className='select-paging'>
+                            <div className='select-size'>
+                                <select
+                                    className="custom-select"
+                                    onChange={handlePageSizeChange}
+                                    value={pageSize}>
+
+                                    {pageSizes.map((size) => (
+                                        <option key={size} value={size}>
+                                            {size}
+                                        </option>
+                                    ))}
+
+                                </select>
+                            </div>
+
+                            <div className='paging'>
+                                <Pagination
+                                    totalItems={totalItems}
+                                    pageLimit={2}
+                                    pageSize={pageSize}
+                                    pageIndex={pageIndex}
+                                    onPageChanged={onPageChanged}
+                                >
+                                </Pagination>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

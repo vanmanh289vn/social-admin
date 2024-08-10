@@ -3,3 +3,22 @@
   right: 10px;
   top: 8px;
 }
+
+.select-paging {
+  position: relative;
+  bottom: 20px;
+}
+
+.select-paging .select-size {
+  position: absolute;
+  left: 5px;
+  top: 50px;
+  margin: 0.5rem;
+}
+
+.select-paging .paging {
+  position: absolute;
+  right: 5px;
+  top: 50px;
+  margin: 0.5rem;
+}
