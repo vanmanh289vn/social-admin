@@ -39,6 +39,7 @@ export const Users = () => {
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
                 <td>{user.email}</td>
+                <td><Link to={UrlConstants.USER_EDIT + user.id}>Edit</Link></td>
             </tr>
         );
     })
@@ -140,6 +141,7 @@ export const Users = () => {
                                         <th>FirstName</th>
                                         <th>LastName</th>
                                         <th>Email</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>

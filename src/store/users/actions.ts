@@ -1,5 +1,5 @@
 import { Dispatch } from "redux"
-import { ADD_USER_FAILURE, ADD_USER_REQUEST, ADD_USER_SUCCESS, IAddUserRequest, LOAD_USERS_PAGING_FAILURE, LOAD_USERS_PAGING_REQUEST, LOAD_USERS_PAGING_SUCCESS, UsersActionTypes } from "./types"
+import { ADD_USER_FAILURE, ADD_USER_REQUEST, ADD_USER_SUCCESS, GET_USER_BY_ID_FAILURE, GET_USER_BY_ID_REQUEST, GET_USER_BY_ID_SUCCESS, IAddUserRequest, IUpdateUserRequest, LOAD_USERS_PAGING_FAILURE, LOAD_USERS_PAGING_REQUEST, LOAD_USERS_PAGING_SUCCESS, UPDATE_USER_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UsersActionTypes } from "./types"
 import { userService } from "../../services";
 import { ALERT_ERROR, ALERT_SUCCESS, AlertActionTypes, CLEAR_ALERT } from "../alert/types";
 
@@ -83,5 +83,67 @@ export const addUser = (user: IAddUserRequest) => {
                 type: CLEAR_ALERT,
             })
         }, 3000);
+    };
+};
+
+export const updateUser = (id: string, user: IUpdateUserRequest) => {
+    return async (dispatch: Dispatch<UsersActionTypes | AlertActionTypes>) => {
+        try {
+            dispatch({
+                type: UPDATE_USER_REQUEST,
+            });
+
+            await userService.updateUser(id, user);
+
+            dispatch({
+                type: UPDATE_USER_SUCCESS,
+            });
+
+            dispatch({
+                type: ALERT_SUCCESS,
+                payload: { message : 'Sửa người dùng thành công!'}
+            });
+
+        } catch (error: any) {
+            dispatch({
+                type: UPDATE_USER_FAILURE,
+                payload: { error: error.toString()}
+            });
+
+            dispatch({
+                type: ALERT_ERROR,
+                payload: { message : 'Sửa người dùng thất bại!  (case Catch)'}
+            });
+        }
+
+        setTimeout(() => {
+            dispatch({
+                type: CLEAR_ALERT,
+            })
+        }, 3000);
+    };
+};
+
+export const getUserById = (id: string) => {
+    return async (dispatch: Dispatch<UsersActionTypes>) => {
+        try {
+            dispatch({
+                type: GET_USER_BY_ID_REQUEST,
+            });
+
+            const res = await userService.getUserById(id);
+
+            dispatch({
+                type: GET_USER_BY_ID_SUCCESS,
+                payload: {
+                    user: res,
+                },
+            });
+        } catch (error: any) {
+            dispatch({
+                type: GET_USER_BY_ID_FAILURE,
+                payload: { error: error.toString()},
+            });
+        }
     };
 };

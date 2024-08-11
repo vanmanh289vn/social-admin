@@ -7,6 +7,7 @@ import { Users } from './Users/Users'
 import { AddUser } from './Users/AddUser'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppState } from '../../store'
+import { EditUser } from './Users/EditUser'
 
 export const Admin = () => {
 
@@ -32,6 +33,7 @@ export const Admin = () => {
                                 <Route path='/' element={<Home />}/>
                                 <Route path='/users' element={<Users />}/>
                                 <Route path='/user-add' element={<AddUser />} />
+                                <Route path='/user-edit/:id' element={<EditUser />} />
                             </Routes>
                     </div>
                     {/* /.container-fluid */}
