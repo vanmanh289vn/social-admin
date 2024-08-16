@@ -22,3 +22,11 @@
   top: 50px;
   margin: 0.5rem;
 }
+
+.header-buttons btn {
+  margin-right: 0.2rem;
+}
+
+.selected {
+  background-color: #eff0f3;
+}

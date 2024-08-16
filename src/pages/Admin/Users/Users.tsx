@@ -3,10 +3,11 @@ import { IUser } from '../../../store/users/types'
 import { useSelector } from 'react-redux'
 import { AppDispatch, AppState } from '../../../store'
 import { useDispatch } from 'react-redux'
-import { loadUserPaging } from '../../../store/users/actions'
+import { deleteUsers, loadUserPaging } from '../../../store/users/actions'
 import { Pagination } from '../../../components'
 import { Link } from 'react-router-dom'
 import { UrlConstants } from '../../../constants'
+import swal from 'sweetalert'
 
 export const Users = () => {
 
@@ -16,6 +17,7 @@ export const Users = () => {
     const [pageIndex, setPageIndex] = useState(1);
     const [searchKeyword, setSearchKeyword] = useState('');
     const [showSearch, setShowSearch] = useState(true);
+    const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
     // page size
     const [pageSize, setPageSize] = useState(6);
@@ -27,6 +29,32 @@ export const Users = () => {
         dispatch(loadUserPaging(searchKeyword, pageIndex, pageSize));
     }, [dispatch, pageIndex, searchKeyword, pageSize]);
 
+    const handleSelectRow = (id: string) => {
+        let newSelectedItems = [...selectedItems];
+        selectedItems.indexOf(id) !== -1 
+        ? (newSelectedItems = selectedItems.filter((item) => item !== id)) 
+        : newSelectedItems.push(id);
+
+        setSelectedItems(newSelectedItems);
+    };
+
+    const handleDelete = () => {
+        if (selectedItems) {
+            swal({
+                title: 'Xác nhận',
+                text: 'Bạn có muốn xóa các bản ghi này không hả Kun?',
+                icon: 'warning',
+                buttons: ['Hủy', 'Xác nhận'],
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    dispatch(deleteUsers(selectedItems));
+                    setSelectedItems([]);
+                }
+            });
+        }
+    }
+
     const onPageChanged = (pageNumber: number) => {
         setPageIndex(pageNumber);
         dispatch(loadUserPaging(searchKeyword, pageNumber, pageSize));
@@ -34,7 +62,22 @@ export const Users = () => {
 
     const userElements: JSX.Element[] = users.map((user) => {
         return (
-            <tr key={`user_${user.id}`}>
+            <tr key={`user_${user.id}`}
+            className={`table-row ${
+                selectedItems.indexOf(user.id) !== -1 ? 'selected' : ''
+            } `}
+            onClick={() => handleSelectRow(user.id)}
+            
+            >
+                <td>
+                    <input 
+                        type='checkbox'
+                        value={`${user.id}`}
+                        checked={selectedItems.indexOf(user.id) !== -1}
+                        onChange={() => handleSelectRow(user.id)}
+                    
+                    />
+                </td>
                 <td>{user.username}</td>
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
@@ -131,12 +174,29 @@ export const Users = () => {
                         >
                             <span className='fa fa-plus'></span> Thêm mới
                         </Link>
+                        {selectedItems.length > 0 && (
+                            <Fragment>
+                                <button
+                                    className='btn btn-outline-danger btn-sm'
+                                    onClick={handleDelete}
+                                >
+                                    <span className='fa fa-trash'></span> Xóa
+                                </button>
+                                <button
+                                    className='btn btn-outline-primary btn-sm'
+                                    onClick={() => setSelectedItems([])}
+                                >
+                                    <i className='fas fa-check'></i> Bỏ chọn
+                                </button>
+                            </Fragment>
+                        )}
                     </div>
                     <div className="card-body">
                         <div className="table-responsive">
                             <table className="table table-bordered" id="dataTable" width="100%" cellSpacing={0}>
                                 <thead>
                                     <tr>
+                                        <th></th>
                                         <th>UserName</th>
                                         <th>FirstName</th>
                                         <th>LastName</th>

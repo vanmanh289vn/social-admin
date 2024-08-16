@@ -1,7 +1,8 @@
-import { Dispatch } from "redux"
-import { ADD_USER_FAILURE, ADD_USER_REQUEST, ADD_USER_SUCCESS, GET_USER_BY_ID_FAILURE, GET_USER_BY_ID_REQUEST, GET_USER_BY_ID_SUCCESS, IAddUserRequest, IUpdateUserRequest, LOAD_USERS_PAGING_FAILURE, LOAD_USERS_PAGING_REQUEST, LOAD_USERS_PAGING_SUCCESS, UPDATE_USER_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UsersActionTypes } from "./types"
+import { AnyAction, Dispatch } from "redux"
+import { ADD_USER_FAILURE, ADD_USER_REQUEST, ADD_USER_SUCCESS, DELETE_USERS_FAILURE, DELETE_USERS_REQUEST, DELETE_USERS_SUCCESS, GET_USER_BY_ID_FAILURE, GET_USER_BY_ID_REQUEST, GET_USER_BY_ID_SUCCESS, IAddUserRequest, IUpdateUserRequest, LOAD_USERS_PAGING_FAILURE, LOAD_USERS_PAGING_REQUEST, LOAD_USERS_PAGING_SUCCESS, UPDATE_USER_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UsersActionTypes } from "./types"
 import { userService } from "../../services";
 import { ALERT_ERROR, ALERT_SUCCESS, AlertActionTypes, CLEAR_ALERT } from "../alert/types";
+import { ThunkDispatch } from "redux-thunk";
 
 export const loadUserPaging = (
     keyword: string,
@@ -143,6 +144,29 @@ export const getUserById = (id: string) => {
             dispatch({
                 type: GET_USER_BY_ID_FAILURE,
                 payload: { error: error.toString()},
+            });
+        }
+    };
+};
+
+export const deleteUsers = (userIds: string[]) => {
+    return async (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+        try {
+            dispatch({
+                type: DELETE_USERS_REQUEST,
+            });
+
+            await userService.deleteUsers(userIds);
+
+            dispatch({
+                type: DELETE_USERS_SUCCESS,
+
+            });
+
+        } catch (error: any) {
+            dispatch({
+                type: DELETE_USERS_FAILURE,
+                payload: { error: error.toString() },
             });
         }
     };

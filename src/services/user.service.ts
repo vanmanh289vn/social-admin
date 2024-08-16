@@ -91,6 +91,13 @@ const updateUser = async (
     return res;
 };
 
+const deleteUsers = async (ids: string[]): Promise<any> => {
+    const res = await api.delete(`/users`, {data: ids}).then((response) => {
+        return response.data;
+    });
+    return res;
+};
+
 
 
 export const userService = {
@@ -100,4 +107,5 @@ export const userService = {
     addUser,
     updateUser,
     getUserById,
+    deleteUsers,
 }
