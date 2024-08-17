@@ -50,6 +50,7 @@ export const Users = () => {
                 if (willDelete) {
                     dispatch(deleteUsers(selectedItems));
                     setSelectedItems([]);
+                    dispatch(loadUserPaging('', 1, 6))
                 }
             });
         }

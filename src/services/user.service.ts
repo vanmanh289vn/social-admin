@@ -92,7 +92,7 @@ const updateUser = async (
 };
 
 const deleteUsers = async (ids: string[]): Promise<any> => {
-    const res = await api.delete(`/users`, {data: ids}).then((response) => {
+    const res = await api.delete(`/user/delete/all`, {data: ids}).then((response) => {
         return response.data;
     });
     return res;
